@@ -1,0 +1,16 @@
+{% extends "layout.html "%} {% block content %}
+<h1>All Coupans</h1>
+{% for coupan in coupans %}
+
+<div>
+  <h3>Coupan title {{coupan.title}}</h3>
+  <p>Coupan Code: {{coupan.code}}</p>
+  <p>Platform To Apply{{coupan.platform_to_apply}}</p>
+  <p>Platform We got from {{coupan.platform_we_got_from}}</p>
+  <p>Expiry Date {{coupan.expiry_date}}</p>
+  <p>COupan Details {{coupan.details}}</p>
+  <p>Is expired {{coupan.is_expired}}</p>
+  <p>Is redemmed {{coupan.is_redemmed}}</p>
+</div>
+
+{% endfor %} {% endblock content %}
