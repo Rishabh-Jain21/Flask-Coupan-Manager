@@ -1,16 +1,22 @@
 {% extends "layout.html "%} {% block content %}
 <h1>All Coupans</h1>
 {% for coupan in coupans %}
-
-<div>
-  <h3>Coupan title {{coupan.title}}</h3>
-  <p>Coupan Code: {{coupan.code}}</p>
-  <p>Platform To Apply{{coupan.platform_to_apply}}</p>
-  <p>Platform We got from {{coupan.platform_we_got_from}}</p>
-  <p>Expiry Date {{coupan.expiry_date}}</p>
-  <p>COupan Details {{coupan.details}}</p>
-  <p>Is expired {{coupan.is_expired}}</p>
-  <p>Is redemmed {{coupan.is_redemmed}}</p>
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">{{coupan.title}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">By username</h6>
+    <p class="card-text">Coupan Code: {{coupan.code}}</p>
+    <p class="card-text">Platform To Apply{{coupan.platform_to_apply}}</p>
+    <p class="card-text">
+      Platform We got from {{coupan.platform_we_got_from}}
+    </p>
+    <p class="card-text">Expiry Date {{coupan.expiry_date}}</p>
+    <p class="card-text">COupan Details {{coupan.details}}</p>
+    <p class="card-text">Is expired {{coupan.is_expired}}</p>
+    <p class="card-text">Is redemmed {{coupan.is_redemmed}}</p>
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
 </div>
 
 {% endfor %} {% endblock content %}
