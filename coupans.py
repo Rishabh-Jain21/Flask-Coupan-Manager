@@ -1,7 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
-
+app.config[
+    "SECRET_KEY"
+] = "575a581e34d929fc5215c09a934d9a32"  # For dev it can be hardcoded # for prod get it from env variable
 coupans_list = [
     {
         "coupan_id": 1,
@@ -36,3 +39,26 @@ def index():
 @app.route("/coupans")
 def show_coupans():
     return render_template("coupans.html", coupans=coupans_list, title="ALL COUPANS")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        flash(f"Accounted Created for {form.username.data}", "success")
+        return redirect(url_for("show_coupans"))
+    return render_template("register.html", title="Register", form=form)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == "admin@blog.com" and form.password.data == "admin":
+            flash("You have been logged in", "success")
+            return redirect(url_for("show_coupans"))
+        else:
+            flash("Unsuccessful login attempt.Check details", "danger")
+
+    return render_template("login.html", title="Login", form=form)
