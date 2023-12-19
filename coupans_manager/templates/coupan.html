@@ -15,8 +15,28 @@
         <p class="card-text"><b>Is expired:</b> {{coupan.is_expired}}</p>
         {% if coupan.author == current_user %}
         <a href="{{url_for('update_coupan',coupan_id=coupan.id)}}" class="btn btn-primary">Update</a>
-        <a href="#" class="btn btn-danger">Delete</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+            Delete
+        </button>
         {% endif %}
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">You sure you want to delete Coupan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <form action="{{url_for('delete_coupan',coupan_id=coupan.id)}}" method="POST">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

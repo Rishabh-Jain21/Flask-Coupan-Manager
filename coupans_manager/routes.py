@@ -148,3 +148,15 @@ def update_coupan(coupan_id):
     return render_template(
         "create_coupan.html", title="Update Coupan", form=form, legend="Update COupan"
     )
+
+
+@app.route("/coupan/<int:coupan_id>/delete", methods=["POST"])
+@login_required
+def delete_coupan(coupan_id):
+    coupan_1 = Coupan.query.get_or_404(coupan_id)
+    if coupan_1.author != current_user:
+        abort(403)
+    db.session.delete(coupan_1)
+    db.session.commit()
+    flash("Coupan Deleted", "success")
+    return redirect(url_for("show_coupans"))
