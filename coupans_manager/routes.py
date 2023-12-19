@@ -104,3 +104,8 @@ def new_coupan():
         return redirect(url_for("show_coupans"))
 
     return render_template("create_coupan.html", title="New Coupan", form=form)
+
+@app.route("/coupan/<int:coupan_id>")
+def coupan(coupan_id):
+    coupan_1=Coupan.query.get_or_404(coupan_id)
+    return render_template("coupan.html",title=coupan_1.title,coupan=coupan_1)

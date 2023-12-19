@@ -1,0 +1,20 @@
+{% extends "layout.html "%} {% block content %}
+<h1>All Coupans</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{coupan.title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">By {{coupan.author.username}}</h6>
+        <p class="card-text"><b>Coupan Code:</b> {{coupan.code}}</p>
+        <p class="card-text"><b>Platform To Apply:</b> {{coupan.platform_apply}}</p>
+        <p class="card-text"><b>
+                Platform We got from:</b> {{coupan.platform_get}}
+        </p>
+        <p class="card-text"><b>Expiry Date:</b> {{coupan.expiry_date.strftime('%d-%b-%Y')}}</p>
+        <p class="card-text"><b>COupan Details:</b> {{coupan.details}}</p>
+        <p class="card-text"><b>Is expired:</b> {{coupan.is_expired}}</p>
+        <a href="#" class="card-link">Card link</a>
+        <a href="#" class="card-link">Another link</a>
+    </div>
+</div>
+{% endblock content %}
