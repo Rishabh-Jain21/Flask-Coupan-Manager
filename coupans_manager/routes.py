@@ -2,7 +2,7 @@ from coupans_manager.models import User, Coupan
 from flask import render_template, flash, redirect, url_for
 from coupans_manager.forms import RegistrationForm, LoginForm
 from coupans_manager import app,bcrypt,db
-
+from flask_login import login_user,current_user, logout_user
 
 coupans_list = [
     {
@@ -42,6 +42,8 @@ def show_coupans():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
     form = RegistrationForm()
 
     if form.validate_on_submit():
@@ -58,12 +60,23 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == "admin@blog.com" and form.password.data == "admin":
-            flash("You have been logged in", "success")
-            return redirect(url_for("show_coupans"))
+        user_1=User.query.filter_by(email=form.email.data).first()
+
+        if user_1 and bcrypt.check_password_hash(user_1.password,form.password.data):
+            login_user(user_1,form.remember.data)
+            return redirect(url_for("index"))
         else:
             flash("Unsuccessful login attempt.Check details", "danger")
 
     return render_template("login.html", title="Login", form=form)
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
+    
