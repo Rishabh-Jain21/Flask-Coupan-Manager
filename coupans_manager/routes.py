@@ -1,7 +1,7 @@
 from coupans_manager.models import User, Coupan
 from flask import render_template, flash, redirect, url_for
 from coupans_manager.forms import RegistrationForm, LoginForm
-from coupans_manager import app
+from coupans_manager import app,bcrypt,db
 
 
 coupans_list = [
@@ -45,8 +45,14 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        flash(f"Accounted Created for {form.username.data}", "success")
-        return redirect(url_for("show_coupans"))
+        hashed_password=bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+
+        user_1=User(username=form.username.data,email=form.email.data,password=hashed_password)
+        db.session.add(user_1)
+        db.session.commit()
+
+        flash(f"Your Account is created", "success")
+        return redirect(url_for("login"))
     return render_template("register.html", title="Register", form=form)
 
 
