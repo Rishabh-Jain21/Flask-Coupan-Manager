@@ -13,8 +13,10 @@
         <p class="card-text"><b>Expiry Date:</b> {{coupan.expiry_date.strftime('%d-%b-%Y')}}</p>
         <p class="card-text"><b>COupan Details:</b> {{coupan.details}}</p>
         <p class="card-text"><b>Is expired:</b> {{coupan.is_expired}}</p>
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+        {% if coupan.author == current_user %}
+        <a href="{{url_for('update_coupan',coupan_id=coupan.id)}}" class="btn btn-primary">Update</a>
+        <a href="#" class="btn btn-danger">Delete</a>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}

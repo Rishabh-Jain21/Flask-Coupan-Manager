@@ -1,7 +1,7 @@
 {% extends "layout.html "%} {% block content %}
 <h1>All Coupans</h1>
 {% for coupan in coupans %}
-<div class="card">
+<div class="card mb-1">
   <div class="card-body">
     <h5 class="card-title">
       <a class="link-primary" href="{{url_for('coupan',coupan_id=coupan.id)}}">{{coupan.title}}</a>

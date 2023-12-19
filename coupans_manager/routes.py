@@ -1,5 +1,6 @@
+from datetime import datetime
 from coupans_manager.models import User, Coupan
-from flask import render_template, flash, redirect, url_for, request
+from flask import abort, render_template, flash, redirect, url_for, request
 from coupans_manager.forms import (
     RegistrationForm,
     LoginForm,
@@ -103,9 +104,47 @@ def new_coupan():
         flash("New Coupan Added", "success")
         return redirect(url_for("show_coupans"))
 
-    return render_template("create_coupan.html", title="New Coupan", form=form)
+    return render_template(
+        "create_coupan.html", title="New Coupan", form=form, legend="CReate COupan"
+    )
+
 
 @app.route("/coupan/<int:coupan_id>")
 def coupan(coupan_id):
-    coupan_1=Coupan.query.get_or_404(coupan_id)
-    return render_template("coupan.html",title=coupan_1.title,coupan=coupan_1)
+    coupan_1 = Coupan.query.get_or_404(coupan_id)
+    return render_template(
+        "coupan.html",
+        title=coupan_1.title,
+        coupan=coupan_1,
+    )
+
+
+@app.route("/coupan/<int:coupan_id>/update", methods=["GET", "POST"])
+@login_required
+def update_coupan(coupan_id):
+    coupan_1 = Coupan.query.get_or_404(coupan_id)
+    if coupan_1.author != current_user:
+        abort(403)
+    form = CoupanForm()
+
+    if form.validate_on_submit():
+        coupan_1.title = form.title.data
+        coupan_1.code = form.code.data
+        coupan_1.platform_apply = form.platform_apply.data
+        coupan_1.platform_get = form.platform_get.data
+        coupan_1.details = form.details.data
+        coupan_1.date_posted = datetime.utcnow()
+        db.session.commit()
+        flash("Coupans details Updated", "success")
+        return redirect(url_for("coupan", coupan_id=coupan_1.id))
+    elif request.method == "GET":
+        form.title.data = coupan_1.title
+        form.code.data = coupan_1.code
+        form.platform_apply.data = coupan_1.platform_apply
+        form.platform_get.data = coupan_1.platform_get
+        form.expiry_date.data = coupan_1.expiry_date
+        form.details.data = coupan_1.details
+
+    return render_template(
+        "create_coupan.html", title="Update Coupan", form=form, legend="Update COupan"
+    )
