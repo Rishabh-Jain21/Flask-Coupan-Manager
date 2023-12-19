@@ -1,8 +1,8 @@
 from coupans_manager.models import User, Coupan
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from coupans_manager.forms import RegistrationForm, LoginForm
-from coupans_manager import app,bcrypt,db
-from flask_login import login_user,current_user, logout_user
+from coupans_manager import app, bcrypt, db
+from flask_login import login_required, login_user, current_user, logout_user
 
 coupans_list = [
     {
@@ -47,9 +47,13 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        hashed_password=bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode(
+            "utf-8"
+        )
 
-        user_1=User(username=form.username.data,email=form.email.data,password=hashed_password)
+        user_1 = User(
+            username=form.username.data, email=form.email.data, password=hashed_password
+        )
         db.session.add(user_1)
         db.session.commit()
 
@@ -64,11 +68,12 @@ def login():
         return redirect(url_for("index"))
     form = LoginForm()
     if form.validate_on_submit():
-        user_1=User.query.filter_by(email=form.email.data).first()
+        user_1 = User.query.filter_by(email=form.email.data).first()
 
-        if user_1 and bcrypt.check_password_hash(user_1.password,form.password.data):
-            login_user(user_1,form.remember.data)
-            return redirect(url_for("index"))
+        if user_1 and bcrypt.check_password_hash(user_1.password, form.password.data):
+            login_user(user_1, form.remember.data)
+            next_page = request.args.get("next")
+            return redirect(next_page) if next_page else redirect(url_for("index"))
         else:
             flash("Unsuccessful login attempt.Check details", "danger")
 
@@ -79,4 +84,9 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("index"))
-    
+
+
+@app.route("/account")
+@login_required
+def account():
+    return render_template("account.html", title="Account")
