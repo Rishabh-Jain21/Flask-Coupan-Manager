@@ -1,33 +1,13 @@
 from coupans_manager.models import User, Coupan
 from flask import render_template, flash, redirect, url_for, request
-from coupans_manager.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from coupans_manager.forms import (
+    RegistrationForm,
+    LoginForm,
+    UpdateAccountForm,
+    CoupanForm,
+)
 from coupans_manager import app, bcrypt, db
 from flask_login import login_required, login_user, current_user, logout_user
-
-coupans_list = [
-    {
-        "coupan_id": 1,
-        "title": "get 50% off on any product",
-        "code": "123456789",
-        "platform_to_apply": "Flipkart",
-        "platform_we_got_from": "googlepay",
-        "expiry_date": "Oct 12,2025",
-        "details": "get 50% off on any product, Valid only on first purchase",
-        "is_expired": False,
-        "is_redemmed": False,
-    },
-    {
-        "coupan_id": 2,
-        "title": "get 70% off on first purchase",
-        "code": "987654",
-        "platform_to_apply": "Amazon",
-        "platform_we_got_from": "paytm",
-        "expiry_date": "Aug 17,2024",
-        "details": "get 70% off on first purchase,valid for new users",
-        "is_expired": False,
-        "is_redemmed": False,
-    },
-]
 
 
 @app.route("/")
@@ -37,6 +17,7 @@ def index():
 
 @app.route("/coupans")
 def show_coupans():
+    coupans_list = Coupan.query.all()
     return render_template("coupans.html", coupans=coupans_list, title="ALL COUPANS")
 
 
@@ -100,3 +81,26 @@ def account():
         form.username.data = current_user.username
         form.email.data = current_user.email
     return render_template("account.html", title="Account", form=form)
+
+
+@app.route("/coupan/new", methods=["GET", "POST"])
+@login_required
+def new_coupan():
+    form = CoupanForm()
+    if form.validate_on_submit():
+        coupan_1 = Coupan(
+            title=form.title.data,
+            code=form.code.data,
+            platform_apply=form.platform_apply.data,
+            platform_get=form.platform_get.data,
+            expiry_date=form.expiry_date.data,
+            details=form.details.data,
+            author=current_user,
+        )
+        db.session.add(coupan_1)
+        db.session.commit()
+
+        flash("New Coupan Added", "success")
+        return redirect(url_for("show_coupans"))
+
+    return render_template("create_coupan.html", title="New Coupan", form=form)

@@ -29,6 +29,7 @@
           <a class="nav-link active" aria-current="page" href="{{url_for('show_coupans')}}">Coupans</a>
         </li>
       </ul>
+      <a class="nav-link active" aria-current="page" href="{{url_for('new_coupan')}}">Add Coupan</a>
       {% if current_user.is_authenticated %}
       <a class="nav-link active" aria-current="page" href="{{url_for('logout')}}">Logout</a>
       <a class="nav-link active" aria-current="page" href="{{url_for('account')}}">Account {{current_user.username}}</a>
