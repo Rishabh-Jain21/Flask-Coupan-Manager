@@ -18,7 +18,10 @@ def index():
 
 @app.route("/coupans")
 def show_coupans():
-    coupans_list = Coupan.query.all()
+    page = request.args.get("page", 1, type=int)
+    coupans_list = Coupan.query.order_by(Coupan.expiry_date).paginate(
+        per_page=5, page=page
+    )
     return render_template("coupans.html", coupans=coupans_list, title="ALL COUPANS")
 
 
