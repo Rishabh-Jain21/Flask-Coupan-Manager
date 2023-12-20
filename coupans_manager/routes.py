@@ -163,3 +163,13 @@ def delete_coupan(coupan_id):
     db.session.commit()
     flash("Coupan Deleted", "success")
     return redirect(url_for("show_coupans"))
+
+
+@app.route("/user/<string:username>")
+def user_coupans(username):
+    page = request.args.get("page", 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    coupans_list = Coupan.query.filter_by(author=user).order_by(Coupan.expiry_date).paginate(
+        per_page=5, page=page
+    )
+    return render_template("user_coupans.html", coupans=coupans_list, title=f"{username} Coupans",user=user)

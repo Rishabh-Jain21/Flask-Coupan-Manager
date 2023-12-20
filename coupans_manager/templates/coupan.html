@@ -4,7 +4,9 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">{{coupan.title}}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">By {{coupan.author.username}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted"><a
+                href="{{url_for('user_coupans',username=coupan.author.username)}}">By
+                {{coupan.author.username}}</a></h6>
         <p class="card-text"><b>Coupan Code:</b> {{coupan.code}}</p>
         <p class="card-text"><b>Platform To Apply:</b> {{coupan.platform_apply}}</p>
         <p class="card-text"><b>
