@@ -1,9 +1,11 @@
 from datetime import datetime
-from coupans_manager import db
+
+from itsdangerous import SignatureExpired
+from coupans_manager import db, app
 from sqlalchemy.ext.hybrid import hybrid_property
 from coupans_manager import login_manager
 from flask_login import UserMixin
-
+from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -14,6 +16,20 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User {self.username}, {self.email} "
+
+    def get_reset_token(self):
+        s = Serializer(app.config["SECRET_KEY"])
+        return s.dumps({"user_id": self.id})
+
+    @staticmethod
+    def verify_reset_toekn(token):
+        s = Serializer(app.config["SECRET_KEY"])
+        try:
+            user_id = s.loads(token, max_age=1800)["user_id"]
+        except SignatureExpired:
+            return None
+
+        return User.query.get(user_id)
 
 
 class Coupan(db.Model):
