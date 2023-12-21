@@ -1,11 +1,12 @@
 from datetime import datetime
 
-from itsdangerous import SignatureExpired
+from itsdangerous import BadSignature, SignatureExpired
 from coupans_manager import db, app
 from sqlalchemy.ext.hybrid import hybrid_property
 from coupans_manager import login_manager
 from flask_login import UserMixin
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -26,7 +27,7 @@ class User(db.Model, UserMixin):
         s = Serializer(app.config["SECRET_KEY"])
         try:
             user_id = s.loads(token, max_age=1800)["user_id"]
-        except SignatureExpired:
+        except (SignatureExpired, BadSignature):
             return None
 
         return User.query.get(user_id)

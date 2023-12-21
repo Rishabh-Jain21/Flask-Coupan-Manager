@@ -4,9 +4,9 @@
 <div class="card mb-1">
   <div class="card-body">
     <h5 class="card-title">
-      <a class="link-primary" href="{{url_for('coupan',coupan_id=coupan.id)}}">{{coupan.title}}</a>
+      <a class="link-primary" href="{{url_for('coupans.coupan',coupan_id=coupan.id)}}">{{coupan.title}}</a>
     </h5>
-    <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('user_coupans',username=coupan.author.username)}}">By
+    <h6 class="card-subtitle mb-2 text-muted"><a href="{{url_for('users.user_coupans',username=coupan.author.username)}}">By
         {{coupan.author.username}}</a></h6>
     <p class="card-text"><b>Coupan Code:</b> {{coupan.code}}</p>
     <p class="card-text"><b>Platform To Apply:</b> {{coupan.platform_apply}}</p>
@@ -23,9 +23,9 @@
 {% for page_num in coupans.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
 {% if page_num %}
 {% if coupans.page == page_num %}
-<a class="btn btn-info mb-4" href="{{url_for('show_coupans',page=page_num)}}">{{page_num}}</a>
+<a class="btn btn-info mb-4" href="{{url_for('main.show_coupans',page=page_num)}}">{{page_num}}</a>
 {% else %}
-<a class="btn btn-outline-info mb-4" href="{{url_for('show_coupans',page=page_num)}}">{{page_num}}</a>
+<a class="btn btn-outline-info mb-4" href="{{url_for('main.show_coupans',page=page_num)}}">{{page_num}}</a>
 {% endif %}
 {% else %}
 ...

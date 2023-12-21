@@ -5,7 +5,7 @@
     <div class="card-body">
         <h5 class="card-title">{{coupan.title}}</h5>
         <h6 class="card-subtitle mb-2 text-muted"><a
-                href="{{url_for('user_coupans',username=coupan.author.username)}}">By
+                href="{{url_for('users.user_coupans',username=coupan.author.username)}}">By
                 {{coupan.author.username}}</a></h6>
         <p class="card-text"><b>Coupan Code:</b> {{coupan.code}}</p>
         <p class="card-text"><b>Platform To Apply:</b> {{coupan.platform_apply}}</p>
@@ -16,7 +16,7 @@
         <p class="card-text"><b>COupan Details:</b> {{coupan.details}}</p>
         <p class="card-text"><b>Is expired:</b> {{coupan.is_expired}}</p>
         {% if coupan.author == current_user %}
-        <a href="{{url_for('update_coupan',coupan_id=coupan.id)}}" class="btn btn-primary">Update</a>
+        <a href="{{url_for('coupans.update_coupan',coupan_id=coupan.id)}}" class="btn btn-primary">Update</a>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
             Delete
         </button>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{{url_for('delete_coupan',coupan_id=coupan.id)}}" method="POST">
+                    <form action="{{url_for('coupans.delete_coupan',coupan_id=coupan.id)}}" method="POST">
                         <input type="submit" class="btn btn-danger" value="Delete">
 
                     </form>

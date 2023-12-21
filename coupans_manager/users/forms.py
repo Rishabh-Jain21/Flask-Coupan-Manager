@@ -1,17 +1,9 @@
-from flask_wtf import FlaskForm
-from wtforms import (
-    DateField,
-    StringField,
-    PasswordField,
-    SubmitField,
-    BooleanField,
-    TextAreaField,
-    ValidationError,
-)
-from wtforms.validators import DataRequired, Length, Email, EqualTo
-from coupans_manager.models import User
 from flask_login import current_user
+from flask_wtf import FlaskForm
+from wtforms import BooleanField, PasswordField, StringField, SubmitField, ValidationError
+from wtforms.validators import DataRequired,Length,Email,EqualTo
 
+from coupans_manager.models import User
 
 class RegistrationForm(FlaskForm):
     username = StringField(
@@ -63,19 +55,6 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError("That email is taken.Please choose different one")
 
-
-class CoupanForm(FlaskForm):
-    title = StringField("Title", validators=[DataRequired(), Length(min=2, max=20)])
-    code = StringField("Code", validators=[DataRequired(), Length(min=2, max=20)])
-    platform_apply = StringField(
-        "Applicable on platform", validators=[DataRequired(), Length(min=2, max=20)]
-    )
-    platform_get = StringField(
-        "From where you got it", validators=[DataRequired(), Length(min=2, max=20)]
-    )
-    expiry_date = DateField("expiry", validators=[DataRequired()], format="%Y-%m-%d")
-    details = TextAreaField("details", validators=[DataRequired()])
-    submit = SubmitField("Add Coupan")
 
 
 class RequestResetForm(FlaskForm):

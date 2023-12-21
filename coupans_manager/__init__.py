@@ -30,10 +30,16 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
-login_manager.login_view = "login"  # tells login manager where is our login route
+login_manager.login_view = "users.login"  # tells login manager where is our login route
 login_manager.login_message_category = "info"
 
 set_mailer_config(app)
 mail = Mail(app)
 
-from coupans_manager import routes
+from coupans_manager.users.routes import users
+from coupans_manager.coupans.routes import coupans
+from coupans_manager.main.routes import main
+
+app.register_blueprint(users)
+app.register_blueprint(coupans)
+app.register_blueprint(main)
