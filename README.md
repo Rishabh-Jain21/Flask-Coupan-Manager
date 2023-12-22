@@ -1,4 +1,34 @@
 
+# Flask-Coupon-Manager
+
+A flask based Application to store coupons
+
+
+
+
+## Features
+
+- User Registration
+- User Login
+- Password Reset
+- Cross platform
+- Email Send
+
+
+## Tech Stack
+
+**Server:** Flask (Python)
+
+**Database:** SqliteDb
+
+
+## Environment Variables
+
+To run this project, you will can set environment variables for variables in config.py or hardcode them accordingly.
+
+
+
+
 ## Run Locally
 
 1.Clone the project
