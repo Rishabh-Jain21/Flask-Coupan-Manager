@@ -23,16 +23,16 @@ def create_app(config_class=Config):
     from coupans_manager.users.routes import users
     from coupans_manager.coupans.routes import coupans
     from coupans_manager.main.routes import main
+    from coupans_manager.errors.handlers import errors
 
     db.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
     login_manager.init_app(app)
 
-
     app.register_blueprint(users)
     app.register_blueprint(coupans)
     app.register_blueprint(main)
+    app.register_blueprint(errors)
 
     return app
-
