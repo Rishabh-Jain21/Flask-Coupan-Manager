@@ -1,9 +1,9 @@
 from datetime import datetime
 
 from itsdangerous import BadSignature, SignatureExpired
-from coupans_manager import db
+from coupons_manager import db
 from sqlalchemy.ext.hybrid import hybrid_property
-from coupans_manager import login_manager
+from coupons_manager import login_manager
 from flask_login import UserMixin
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 from flask import current_app
@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
-    coupans = db.relationship("Coupan", backref="author", lazy=True)
+    coupons = db.relationship("Coupon", backref="author", lazy=True)
 
     def __repr__(self):
         return f"User {self.username}, {self.email} "
@@ -34,7 +34,7 @@ class User(db.Model, UserMixin):
         return User.query.get(user_id)
 
 
-class Coupan(db.Model):
+class Coupon(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50), nullable=False)
     code = db.Column(db.String(30), nullable=False)

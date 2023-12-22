@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 
-from coupans_manager.models import Coupan
+from coupons_manager.models import Coupon
 
 main = Blueprint("main", __name__)
 
@@ -10,11 +10,10 @@ def index():
     return render_template("index.html")
 
 
-@main.route("/coupans")
-def show_coupans():
+@main.route("/coupons")
+def show_coupons():
     page = request.args.get("page", 1, type=int)
-    coupans_list = Coupan.query.order_by(Coupan.expiry_date).paginate(
+    coupons_list = Coupon.query.order_by(Coupon.expiry_date).paginate(
         per_page=5, page=page
     )
-    return render_template("coupans.html", coupans=coupans_list, title="ALL COUPANS")
-
+    return render_template("coupons.html", coupons=coupons_list, title="ALL COUPANS")

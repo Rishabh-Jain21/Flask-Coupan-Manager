@@ -1,6 +1,6 @@
 from flask import url_for
 from flask_mail import Message
-from coupans_manager import mail
+from coupons_manager import mail
 
 
 def send_reset_email(user):

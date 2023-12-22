@@ -1,16 +1,16 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
-from coupans_manager.users.utils import send_reset_email
-from coupans_manager.models import Coupan, User
+from coupons_manager.users.utils import send_reset_email
+from coupons_manager.models import Coupon, User
 
-from coupans_manager.users.forms import (
+from coupons_manager.users.forms import (
     LoginForm,
     RegistrationForm,
     RequestResetForm,
     ResetPasswordForm,
     UpdateAccountForm,
 )
-from coupans_manager import bcrypt, db
+from coupons_manager import bcrypt, db
 
 users = Blueprint("users", __name__)
 
@@ -78,18 +78,18 @@ def account():
 
 
 @users.route("/user/<string:username>")
-def user_coupans(username):
+def user_coupons(username):
     page = request.args.get("page", 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
-    coupans_list = (
-        Coupan.query.filter_by(author=user)
-        .order_by(Coupan.expiry_date)
+    coupons_list = (
+        Coupon.query.filter_by(author=user)
+        .order_by(Coupon.expiry_date)
         .paginate(per_page=5, page=page)
     )
     return render_template(
-        "user_coupans.html",
-        coupans=coupans_list,
-        title=f"{username} Coupans",
+        "user_coupons.html",
+        coupons=coupons_list,
+        title=f"{username} Coupons",
         user=user,
     )
 

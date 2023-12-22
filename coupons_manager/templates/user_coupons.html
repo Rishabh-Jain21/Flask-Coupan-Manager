@@ -1,0 +1,38 @@
+{% extends "layout.html "%}
+{% block content %}
+<h1 class="mb-3">Coupons by {{user.username}} {{coupons.total}}</h1>
+{% for coupon in coupons.items %}
+<div class="card mb-1">
+    <div class="card-body">
+        <h5 class="card-title">
+            <a class="link-primary" href="{{url_for('coupons.coupon',coupon_id=coupon.id)}}">{{coupon.title}}</a>
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted"><a
+                href="{{url_for('users.user_coupons',username=coupon.author.username)}}">By
+                {{coupon.author.username}}</a></h6>
+        <p class="card-text"><b>Coupon Code:</b> {{coupon.code}}</p>
+        <p class="card-text"><b>Platform To Apply:</b> {{coupon.platform_apply}}</p>
+        <p class="card-text"><b>
+                Platform We got from:</b> {{coupon.platform_get}}
+        </p>
+        <p class="card-text"><b>Expiry Date:</b> {{coupon.expiry_date.strftime('%d-%b-%Y')}}</p>
+        <p class="card-text"><b>COupan Details:</b> {{coupon.details}}</p>
+        <p class="card-text"><b>Is expired:</b> {{coupon.is_expired}}</p>
+    </div>
+</div>
+
+{% endfor %}
+{% for page_num in coupons.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+{% if page_num %}
+{% if coupons.page == page_num %}
+<a class="btn btn-info mb-4"
+    href="{{url_for('users.user_coupons',username=user.username,page=page_num)}}">{{page_num}}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4"
+    href="{{url_for('users.user_coupons',username=user.username,page=page_num)}}">{{page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+{% endblock content %}

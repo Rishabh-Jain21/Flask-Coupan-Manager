@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
-from coupans_manager.config import Config
+from coupons_manager.config import Config
 
 db = SQLAlchemy()
 
@@ -20,10 +20,10 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    from coupans_manager.users.routes import users
-    from coupans_manager.coupans.routes import coupans
-    from coupans_manager.main.routes import main
-    from coupans_manager.errors.handlers import errors
+    from coupons_manager.users.routes import users
+    from coupons_manager.coupons.routes import coupons
+    from coupons_manager.main.routes import main
+    from coupons_manager.errors.handlers import errors
 
     db.init_app(app)
     bcrypt.init_app(app)
@@ -31,7 +31,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
 
     app.register_blueprint(users)
-    app.register_blueprint(coupans)
+    app.register_blueprint(coupons)
     app.register_blueprint(main)
     app.register_blueprint(errors)
 

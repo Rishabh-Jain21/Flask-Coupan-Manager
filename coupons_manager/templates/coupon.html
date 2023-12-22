@@ -1,22 +1,22 @@
 {% extends "layout.html "%} {% block content %}
-<h1>All Coupans</h1>
+<h1>All Coupons</h1>
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{coupan.title}}</h5>
+        <h5 class="card-title">{{coupon.title}}</h5>
         <h6 class="card-subtitle mb-2 text-muted"><a
-                href="{{url_for('users.user_coupans',username=coupan.author.username)}}">By
-                {{coupan.author.username}}</a></h6>
-        <p class="card-text"><b>Coupan Code:</b> {{coupan.code}}</p>
-        <p class="card-text"><b>Platform To Apply:</b> {{coupan.platform_apply}}</p>
+                href="{{url_for('users.user_coupons',username=coupon.author.username)}}">By
+                {{coupon.author.username}}</a></h6>
+        <p class="card-text"><b>Coupon Code:</b> {{coupon.code}}</p>
+        <p class="card-text"><b>Platform To Apply:</b> {{coupon.platform_apply}}</p>
         <p class="card-text"><b>
-                Platform We got from:</b> {{coupan.platform_get}}
+                Platform We got from:</b> {{coupon.platform_get}}
         </p>
-        <p class="card-text"><b>Expiry Date:</b> {{coupan.expiry_date.strftime('%d-%b-%Y')}}</p>
-        <p class="card-text"><b>COupan Details:</b> {{coupan.details}}</p>
-        <p class="card-text"><b>Is expired:</b> {{coupan.is_expired}}</p>
-        {% if coupan.author == current_user %}
-        <a href="{{url_for('coupans.update_coupan',coupan_id=coupan.id)}}" class="btn btn-primary">Update</a>
+        <p class="card-text"><b>Expiry Date:</b> {{coupon.expiry_date.strftime('%d-%b-%Y')}}</p>
+        <p class="card-text"><b>COupan Details:</b> {{coupon.details}}</p>
+        <p class="card-text"><b>Is expired:</b> {{coupon.is_expired}}</p>
+        {% if coupon.author == current_user %}
+        <a href="{{url_for('coupons.update_coupon',coupon_id=coupon.id)}}" class="btn btn-primary">Update</a>
         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
             Delete
         </button>
@@ -27,12 +27,12 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">You sure you want to delete Coupan</h5>
+                    <h5 class="modal-title" id="deleteModalLabel">You sure you want to delete Coupon</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <form action="{{url_for('coupans.delete_coupan',coupan_id=coupan.id)}}" method="POST">
+                    <form action="{{url_for('coupons.delete_coupon',coupon_id=coupon.id)}}" method="POST">
                         <input type="submit" class="btn btn-danger" value="Delete">
 
                     </form>
