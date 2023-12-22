@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from coupons_manager.config import Config
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 
@@ -13,6 +14,7 @@ login_manager = LoginManager()
 login_manager.login_view = "users.login"  # tells login manager where is our login route
 login_manager.login_message_category = "info"
 
+migrate = Migrate()
 mail = Mail()
 
 
@@ -29,6 +31,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     mail.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     app.register_blueprint(users)
     app.register_blueprint(coupons)
