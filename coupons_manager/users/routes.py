@@ -61,6 +61,17 @@ def logout():
     return redirect(url_for("main.index"))
 
 
+@login_required
+@users.route("/user/delete", methods=["POST"])
+def delete_account():
+    Coupon.query.filter_by(user_id=current_user.id).delete()
+    db.session.delete(current_user)
+    db.session.commit()
+    logout_user()
+    flash("Account Deletion Successfull", "success")
+    return redirect(url_for("main.index"))
+
+
 @users.route("/account", methods=["GET", "POST"])
 @login_required
 def account():
